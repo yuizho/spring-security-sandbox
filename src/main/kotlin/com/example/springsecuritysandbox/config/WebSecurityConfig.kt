@@ -5,12 +5,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.NoOpPasswordEncoder
 
 @Configuration
 class WebSecurityConfig(
         private val userDetailsService: UserDetailsService
-): WebSecurityConfigurerAdapter() {
+) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
                 .anyRequest().authenticated()
@@ -21,6 +21,7 @@ class WebSecurityConfig(
 
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService)
-                .passwordEncoder(BCryptPasswordEncoder())
+                // FIXME: encode password
+                .passwordEncoder(NoOpPasswordEncoder.getInstance())
     }
 }

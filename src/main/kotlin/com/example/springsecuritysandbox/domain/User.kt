@@ -3,10 +3,10 @@ package com.example.springsecuritysandbox.domain
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class UserDetailsImpl(
+class User(
         private val username: String,
         private val password: String
-): UserDetails {
+) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return mutableListOf()
     }
