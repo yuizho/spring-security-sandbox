@@ -13,10 +13,12 @@ class WebSecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .anyRequest().authenticated()
+                .anyRequest().access("isAuthenticated() and hasAuthority('ADMIN')")
                 .and()
                 .formLogin()
                 .defaultSuccessUrl("/loggedin")
+                .and()
+                .exceptionHandling().accessDeniedPage("/access_denied.html")
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {

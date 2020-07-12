@@ -11,12 +11,15 @@ class JdbcUserRepository(
 ) : UserRepository {
     override fun findByName(name: String): User? {
         return jdbcOperations.queryForObject("""
-            select name, password from user where name = :name
+            select name, password, authority from user where name = :name
         """.trimIndent(),
-                mapOf<String, Any>("name" to name),
-                { rs, _ ->
-                    User(rs.getString("name"), rs.getString("password"))
-                }
-        )
+                mapOf<String, Any>("name" to name)
+        ) { rs, _ ->
+            User(
+                    rs.getString("name"),
+                    rs.getString("password"),
+                    rs.getString("authority")
+            )
+        }
     }
 }
